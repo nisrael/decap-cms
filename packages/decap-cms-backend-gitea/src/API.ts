@@ -53,6 +53,7 @@ export interface Config {
   branch?: string;
   repo?: string;
   originRepo?: string;
+  cmsLabelPrefix?: string;
 }
 
 enum FileOperation {
@@ -117,6 +118,7 @@ export default class API {
   originRepoName: string;
   repoURL: string;
   originRepoURL: string;
+  cmsLabelPrefix: string;
 
   _userPromise?: Promise<GiteaUser>;
   _metadataSemaphore?: Semaphore;
@@ -131,6 +133,7 @@ export default class API {
     this.originRepo = config.originRepo || this.repo;
     this.repoURL = `/repos/${this.repo}`;
     this.originRepoURL = `/repos/${this.originRepo}`;
+    this.cmsLabelPrefix = config.cmsLabelPrefix || '';
 
     const [repoParts, originRepoParts] = [this.repo.split('/'), this.originRepo.split('/')];
     this.repoOwner = repoParts[0];

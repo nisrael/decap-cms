@@ -58,6 +58,7 @@ export default class Gitea implements Implementation {
   apiRoot: string;
   mediaFolder?: string;
   token: string | null;
+  cmsLabelPrefix: string;
   _currentUserPromise?: Promise<GiteaUser>;
   _userIsOriginMaintainerPromises?: {
     [key: string]: Promise<boolean>;
@@ -85,6 +86,7 @@ export default class Gitea implements Implementation {
     this.apiRoot = config.backend.api_root || 'https://try.gitea.io/api/v1';
     this.token = '';
     this.mediaFolder = config.media_folder;
+    this.cmsLabelPrefix = config.backend.cms_label_prefix || '';
     this.lock = asyncLock();
   }
 
@@ -157,6 +159,7 @@ export default class Gitea implements Implementation {
       repo: this.repo,
       originRepo: this.originRepo,
       apiRoot: this.apiRoot,
+      cmsLabelPrefix: this.cmsLabelPrefix,
     });
     const user = await this.api!.user();
     const isCollab = await this.api!.hasWriteAccess().catch(error => {
